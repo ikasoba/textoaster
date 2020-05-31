@@ -1,6 +1,8 @@
+	screen 0,654,480
 	file="?:\untitled"	//ダミーのファイル
 		/*include*/
 	#include "mod_menu.as"	//これでメニューが作れる
+	#include "d3m.hsp"	//windowsの稼働時間獲得用
 		/*menu*/
 	newmenu hsubmenu,1
 	addmenu hsubmenu,"開く(&O)",1
@@ -13,11 +15,13 @@
 	mesbox txt,500,300,5,0
 	obj_id=stat
 	pos 500,0
-	input rndint,140,20
+	input rndint,154,20
 	pos 500,20
 	button gosub "乱数入力",*addrnd
 	pos 564,20
-	chkbox
+	objsize 90
+	chkbox "パターン初期化",checkbox_1
+	objsize
 		/*いろいろ*/
 	oncmd gosub *oncommand,WM_COMMAND	//あまり触らないほうがいい
 	repeat
@@ -38,7 +42,9 @@
 	return
 	stop
 *addrnd
+	if checkbox_1=1:randomize //d3timer()/(stat / 1000 \ 60)/gettime(6)+1/rnd(gettime(7)+1)
+	if rndint=0:return
 	random=rnd(rndint)//0～rndintの乱数を作る
-	noteadd str(rndint),-1,0
+	noteadd str(random),-1,0
 	objprm obj_id,txt
 	return
