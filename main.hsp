@@ -1,0 +1,44 @@
+	file="?:\untitled"	//ダミーのファイル
+		/*include*/
+	#include "mod_menu.as"	//これでメニューが作れる
+		/*menu*/
+	newmenu hsubmenu,1
+	addmenu hsubmenu,"開く(&O)",1
+	newmenu hmenu,0
+	addmenu hmenu,"ファイル(&F)",hsubmenu,0x10
+	applymenu hmenu
+		/*main*/
+	notesel txt
+	sdim txt,90000
+	mesbox txt,500,300,5,0
+	obj_id=stat
+	pos 500,0
+	input rndint,140,20
+	pos 500,20
+	button gosub "乱数入力",*addrnd
+	pos 564,20
+	chkbox
+		/*いろいろ*/
+	oncmd gosub *oncommand,WM_COMMAND	//あまり触らないほうがいい
+	repeat
+	title ""+str(getpath(file,8))+"のサイズ:["+int(notesize)+"byte]"
+	await 300
+	loop
+	stop
+*oncommand//ここは触ってもいいかも
+	cmd = wparam & 0xFFFF
+	if cmd = 1:{	//開くを押したら
+	dialog "*.*|txt|json|svg|com|bat|html|htm|exo",16	//ファイル選択
+	if stat = 0:{return}	//決定ボタンを押さなかったらモドル
+	file=refstr
+		noteload refstr	//ファイル読み込み
+		logmes "stat="+str(stat)+"\nrawtext\n"+txt	//消してもいい
+		objprm obj_id,txt	//ここがないと文字が表示されないよ
+	}
+	return
+	stop
+*addrnd
+	random=rnd(rndint)//0～rndintの乱数を作る
+	noteadd str(rndint),-1,0
+	objprm obj_id,txt
+	return
