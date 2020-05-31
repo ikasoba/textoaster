@@ -23,6 +23,7 @@
 	chkbox "パターン初期化",checkbox_1
 	objsize
 		/*いろいろ*/
+	if dir_cmdline!"":{noteload dir_cmdline:objprm obj_id,txt}	//関連付けでも開けるように
 	oncmd gosub *oncommand,WM_COMMAND	//あまり触らないほうがいい
 	repeat
 	title ""+str(getpath(file,8))+"のサイズ:["+int(notesize)+"byte]"
