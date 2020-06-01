@@ -1,3 +1,13 @@
+		/*
+	#目標
+	 1.HSPコードをコンパイルする。
+	 2.pythonコードの実行。
+	 3.htmlのプレビュー
+	 4.javascriptの実行
+	                  ∧∧
+	 できたらいいなぁ(･ω・)
+	
+		*/
 		#packopt name "textoaster"
 		#packopt version "version.txt"
 		#packopt icon "img/icon/icon.ico"
@@ -24,8 +34,11 @@
 	addmenu hmenu,"ヘルプ",hsubmenu2,_submenu
 	applymenu hmenu
 		/*main*/
+		syscolor 15
+		boxf
+		color 0,0,0
 	notesel txt
-	sdim txt,90000
+	sdim txt,100000000
 	mesbox txt,500,300,5,0
 	obj_id=stat
 	pos 500,0
