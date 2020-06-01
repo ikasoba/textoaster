@@ -1,13 +1,24 @@
 	screen 0,654,480
-	file="?:\untitled"	//ダミーのファイル
+	file="?:\\untitled"	//ダミーのファイル
 		/*include*/
 	#include "mod_menu.as"	//これでメニューが作れる
 	#include "d3m.hsp"	//windowsの稼働時間獲得用
 		/*menu*/
+		#define _seprator	0x0800
+		#define _submenu	0x0010
+		#define _check		0x0008
+		#define _not		0x0003
+		#define _default	0x0000
 	newmenu hsubmenu,1
-	addmenu hsubmenu,"開く(&O)",1
+	addmenu hsubmenu,"開く",1
+	addmenu hsubmenu,"保存",2
+	newmenu hsubmenu2,1
+	addmenu hsubmenu2,"about",3
 	newmenu hmenu,0
-	addmenu hmenu,"ファイル(&F)",hsubmenu,0x10
+	addmenu hmenu,"ファイル",hsubmenu,_submenu
+	addmenu hmenu,"クイックセーブ",4,_default
+	addmenu hmenu,"",0,_seprator
+	addmenu hmenu,"help",hsubmenu2,_submenu
 	applymenu hmenu
 		/*main*/
 	notesel txt
@@ -32,6 +43,8 @@
 	stop
 *oncommand//ここは触ってもいいかも
 	cmd = wparam & 0xFFFF
+	if cmd = 4:{str(getpath(file,8))}
+	if cmd = 3:dialog ""
 	if cmd = 1:{	//開くを押したら
 	dialog "*.*|txt|json|svg|com|bat|html|htm|exo",16	//ファイル選択
 	if stat = 0:{return}	//決定ボタンを押さなかったらモドル
