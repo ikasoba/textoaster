@@ -1,3 +1,5 @@
+		#packopt name "textoaster"
+		#packopt version "version.txt"
 	screen 0,654,480
 	file="?:\\untitled"	//ダミーのファイル
 		/*include*/
