@@ -1,0 +1,6 @@
+_FILEVERSION=1.0
+Comments=いかそばです!!
+FileDescription=テキストエディタ
+FileVersion=1.0
+LegalCopyright=いかそば
+OriginalFilename=textoaster.exe
