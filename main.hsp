@@ -1,5 +1,6 @@
 		#packopt name "textoaster"
 		#packopt version "version.txt"
+		#packopt icon "img/icon/icon.ico"
 	screen 0,654,480
 	file="?:\\untitled"	//ダミーのファイル
 		/*include*/
@@ -15,12 +16,12 @@
 	addmenu hsubmenu,"開く",1
 	addmenu hsubmenu,"保存",2
 	newmenu hsubmenu2,1
-	addmenu hsubmenu2,"about",3
+	addmenu hsubmenu2,"バージョン",3
 	newmenu hmenu,0
 	addmenu hmenu,"ファイル",hsubmenu,_submenu
 	addmenu hmenu,"クイックセーブ",4,_default
 	addmenu hmenu,"",0,_seprator
-	addmenu hmenu,"help",hsubmenu2,_submenu
+	addmenu hmenu,"ヘルプ",hsubmenu2,_submenu
 	applymenu hmenu
 		/*main*/
 	notesel txt
@@ -45,7 +46,7 @@
 	stop
 *oncommand//ここは触ってもいいかも
 	cmd = wparam & 0xFFFF
-	if cmd = 4:{str(getpath(file,8))}
+	if cmd = 4:{notesave str(getpath(file,8))}
 	if cmd = 3:dialog ""
 	if cmd = 1:{	//開くを押したら
 	dialog "*.*|txt|json|svg|com|bat|html|htm|exo",16	//ファイル選択
