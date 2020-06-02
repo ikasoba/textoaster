@@ -16,6 +16,7 @@
 		/*include*/
 	#include "mod_menu.as"	//これでメニューが作れる
 	#include "d3m.hsp"	//windowsの稼働時間獲得用
+	#include "include/hspcmp.as"	//hspのコンパイル用
 		/*menu*/
 		#define _seprator	0x0800
 		#define _submenu	0x0010
@@ -27,8 +28,11 @@
 	addmenu hsubmenu,"保存",2
 	newmenu hsubmenu2,1
 	addmenu hsubmenu2,"バージョン",3
+	newmenu hsubmenu3,1
+	addmenu hsubmenu3,"コンパイル",5,_default
 	newmenu hmenu,0
 	addmenu hmenu,"ファイル",hsubmenu,_submenu
+	addmenu hmenu,"開発",hsubmenu3,_submenu
 	addmenu hmenu,"クイックセーブ",4,_default
 	addmenu hmenu,"",0,_seprator
 	addmenu hmenu,"ヘルプ",hsubmenu2,_submenu
@@ -41,6 +45,10 @@
 	sdim txt,100000000
 	mesbox txt,500,300,5,0
 	obj_id=stat
+	log=""
+	pos 500
+	mesbox log,155,160
+	logbox=stat
 	pos 500,0
 	input rndint,154,20
 	pos 500,20
@@ -69,12 +77,38 @@
 		logmes "stat="+str(stat)+"\nrawtext\n"+txt	//消してもいい
 		objprm obj_id,txt	//ここがないと文字が表示されないよ
 	}
+	if cmd=5:{
+	//hspcmp.hspを少し改造したもの
+	notesel cmp
+	cmp="#include \"include/hspdef.as\"\n"+txt
+	sdim log,$10000
+	sdim rtname,256
+notesave "tmp/cmptmp"
+	sdim mesbuf,$10000
+	fname="tmp/cmptmp" ; スクリプトファイル名
+	objname="obj" ; オブジェクトファイル名
+	hsc_ini fname
+	hsc_objname objname
+	hsc_comp 0 ; コンパイル
+	if stat!=0 : dialog "ERROR" : goto *goerror
+	hsc3_getruntime rtname, objname ; ランタイム名を取得
+	rtname="include/hsp3.exe"
+	debug_mode=0
+	cmdexe = "\""+dir_exe+"\\"+rtname+"\" "+objname
+	hsc3_run cmdexe, debug_mode ; ランタイムを実行する
+*goerror
+	log=""
+	hsc_getmes log
+	objmode 1
+	objprm logbox,log
+	stop
+		}
 	return
 	stop
 *addrnd//乱数を入れるだけ
 	if checkbox_1=1:randomize //d3timer()/(stat / 1000 \ 60)/gettime(6)+1/rnd(gettime(7)+1)
 	if rndint=0:return
-	random=rnd(rndint)//0～rndintの乱数を作る
+	random=rnd(rndint)//0～rndintの乱数を作るそしてrandomに数字を入れる
 	noteadd str(random),-1,0
 	objprm obj_id,txt
 	return
