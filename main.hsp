@@ -47,7 +47,7 @@
 	obj_id=stat
 	log=""
 	pos 500
-	mesbox log,155,160
+	mesbox log,155,160,4
 	logbox=stat
 	pos 500,0
 	input rndint,154,20
